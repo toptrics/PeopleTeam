@@ -1,3 +1,7 @@
+import React, { useState } from 'react';
+import LoginScreen from './Login';
+import LandingScreen from './Landing';
+
 // Main App Component
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

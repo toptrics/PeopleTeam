@@ -62,3 +62,4 @@ const ChatWindow = ({ messages, newMessage, setNewMessage, onSendMessage }) => {
     </div>
   );
 };
+export default ChatWindow;

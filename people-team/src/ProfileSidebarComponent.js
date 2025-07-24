@@ -67,3 +67,4 @@ const ProfileSidebar = ({ isOpen, onClose, currentUser, onLogout }) => {
     </>
   );
 };
+export default ProfileSidebar;

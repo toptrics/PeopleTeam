@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-
+import ChatWindow from './ChatWindowComponent';
+import ProfileSidebar from './ProfileSidebarComponent';
 // LandingScreen Component
 const LandingScreen = ({ currentUser, onLogout }) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -82,3 +83,4 @@ const LandingScreen = ({ currentUser, onLogout }) => {
     </div>
   );
 };
+export default LandingScreen;
