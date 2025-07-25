@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import LoginScreen from './Login';
-import LandingScreen from './Landing';
+import LoginScreen from './components/Login';
+import LandingScreen from './components/Landing';
 
 // Main App Component
 const App = () => {

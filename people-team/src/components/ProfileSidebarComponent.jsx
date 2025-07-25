@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { User, Settings, LogOut } from 'lucide-react';
 
 // ProfileSidebar Component
 const ProfileSidebar = ({ isOpen, onClose, currentUser, onLogout }) => {

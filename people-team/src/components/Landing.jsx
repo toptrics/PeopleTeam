@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Menu, Bell, Search } from 'lucide-react';
 import ChatWindow from './ChatWindowComponent';
 import ProfileSidebar from './ProfileSidebarComponent';
 // LandingScreen Component
