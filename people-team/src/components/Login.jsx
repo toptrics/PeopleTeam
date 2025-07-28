@@ -1,13 +1,26 @@
-
 import React, { useState } from 'react';
 
 // LoginScreen Component
 const LoginScreen = ({ onLogin }) => {
   const [loginData, setLoginData] = useState({ userid: '', password: '' });
+  const [showSSOPopup, setShowSSOPopup] = useState(false);
+  const [ssoEmail, setSSOEmail] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = () => {
     if (loginData.userid && loginData.password) {
       onLogin({ userid: loginData.userid, name: loginData.userid });
+    }
+  };
+
+  const handleSSOLogin = () => {
+    if (ssoEmail) {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        setShowSSOPopup(false);
+        onLogin({ userid: ssoEmail, name: ssoEmail });
+      }, 1000);
     }
   };
 
@@ -58,12 +71,69 @@ const LoginScreen = ({ onLogin }) => {
         </div>
         
         <div className="mt-6 text-center">
-          <p className="text-white/60 text-sm">
-            Demo: Use any user ID and password to login
-          </p>
+          <a
+            href="#"
+            className="text-pink-200 underline hover:text-white transition"
+            onClick={e => {
+              e.preventDefault();
+              setShowSSOPopup(true);
+            }}
+          >
+            Login via SSO
+          </a>
         </div>
       </div>
+
+      {/* SSO Popup */}
+      {showSSOPopup && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-sm relative">
+            <button
+              className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 text-xl"
+              onClick={() => setShowSSOPopup(false)}
+              aria-label="Close"
+            >
+              ×
+            </button>
+            <img
+              src="/tmobile-logo.png"
+              alt="T-Mobile Logo"
+              className="mx-auto mb-4 h-12 w-auto"
+            />
+            <h2 className="text-xl font-bold text-center mb-4 text-pink-700">SSO Login</h2>
+            <label className="block text-gray-700 text-sm font-medium mb-2">
+              Microsoft Email
+            </label>
+            <input
+              type="email"
+              value={ssoEmail}
+              onChange={e => setSSOEmail(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-pink-300"
+              placeholder="Enter your Microsoft email"
+              disabled={loading}
+            />
+            <button
+              onClick={handleSSOLogin}
+              disabled={loading || !ssoEmail}
+              className="w-full bg-pink-600 text-white py-2 rounded-lg font-semibold hover:bg-pink-700 transition mb-2 disabled:opacity-50"
+            >
+              {loading ? (
+                <span className="flex items-center justify-center">
+                  <svg className="animate-spin h-5 w-5 mr-2 text-white" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/>
+                  </svg>
+                  Loading...
+                </span>
+              ) : (
+                "Login"
+              )}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
+
 export default LoginScreen;
