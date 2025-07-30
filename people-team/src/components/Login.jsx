@@ -70,8 +70,17 @@ const LoginScreen = ({ onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 flex items-center justify-center p-4">
-      <div className="bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-8 w-full max-w-md border border-white/20">
+    <div className="min-h-screen bg-[#E20074] flex items-center justify-center p-4">
+      <div className="w-full max-w-md p-8 rounded-2xl shadow-2xl bg-white/10">
+        <img
+          src="/tmobile-logo.png"
+          alt="T-Mobile Logo"
+          className="mx-auto mb-6 h-14 w-auto rounded-xl border-4 border-white shadow-lg"
+          style={{
+            boxShadow: '0 0 0 4px #E20074, 0 4px 24px 0 rgba(226,0,116,0.15)',
+            background: 'white',
+          }}
+        />
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
           <p className="text-white/80">Sign in to continue to your account</p>

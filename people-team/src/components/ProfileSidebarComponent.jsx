@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { User, Settings, LogOut } from 'lucide-react';
+import { User, Search, LogOut } from 'lucide-react';
 import EmployeeFeedbackForm from './EmployeeFeedbackForm';
 import ProfileSectionScreen from './ProfileSectionScreen';
+import SearchEmployeeScreen from './SearchEmployeeScreen'; // <-- new import
 
 // ProfileSidebar Component
 const ProfileSidebar = ({ isOpen, onClose, currentUser, onLogout }) => {
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
   const [showProfileSection, setShowProfileSection] = useState(false);
+  const [showSearchEmployee, setShowSearchEmployee] = useState(false);
 
   // Show profile section as a full screen overlay
   if (showProfileSection) {
@@ -14,6 +16,15 @@ const ProfileSidebar = ({ isOpen, onClose, currentUser, onLogout }) => {
       <ProfileSectionScreen
         currentUser={currentUser}
         onClose={() => setShowProfileSection(false)}
+      />
+    );
+  }
+
+  // Show search employee as a full screen overlay
+  if (showSearchEmployee) {
+    return (
+      <SearchEmployeeScreen
+        onClose={() => setShowSearchEmployee(false)}
       />
     );
   }
@@ -63,10 +74,13 @@ const ProfileSidebar = ({ isOpen, onClose, currentUser, onLogout }) => {
                 <User className="w-5 h-5 text-gray-600" />
                 <span className="text-gray-700">Profile Section</span>
               </button>
-              <a href="#" className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 transition-colors">
-                <Settings className="w-5 h-5 text-gray-600" />
-                <span className="text-gray-700">Preferences</span>
-              </a>
+              <button
+                className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 transition-colors w-full text-left"
+                onClick={() => setShowSearchEmployee(true)}
+              >
+                <Search className="w-5 h-5 text-gray-600" />
+                <span className="text-gray-700">Search Employee</span>
+              </button>
               {/* Show Employee Feedback only for ROLE_ADMIN */}
               {currentUser?.role === 'ROLE_ADMIN' && (
                 <button
