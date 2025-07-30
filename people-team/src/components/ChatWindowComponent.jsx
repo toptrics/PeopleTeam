@@ -6,7 +6,7 @@ const ChatWindow = ({ messages, newMessage, setNewMessage, onSendMessage }) => {
   return (
     <div className="bg-white rounded-2xl shadow-lg flex-1 flex flex-col overflow-hidden">
       {/* Chat Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 text-white">
+      <div className="bg-[#E20074] p-4 text-white">
         <h2 className="text-lg font-semibold">Chat Room</h2>
         <p className="text-white/80 text-sm">Real-time messaging</p>
       </div>
@@ -47,11 +47,11 @@ const ChatWindow = ({ messages, newMessage, setNewMessage, onSendMessage }) => {
             onChange={(e) => setNewMessage(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && onSendMessage()}
             placeholder="Type your message..."
-            className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
           />
           <button
             onClick={onSendMessage}
-            className="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition-colors"
+            className="bg-[#E20074] text-white p-2 rounded-full hover:bg-pink-700 transition-colors"
           >
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>

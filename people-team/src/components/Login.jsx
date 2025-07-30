@@ -71,13 +71,14 @@ const LoginScreen = ({ onLogin }) => {
 
   return (
     <div className="min-h-screen bg-[#E20074] flex items-center justify-center p-4">
-      <div className="w-full max-w-md p-8 rounded-2xl shadow-2xl bg-white/10">
+      <div className="w-full max-w-md p-8 rounded-2xl shadow-2xl bg-gray-900">
         <img
           src="/tmobile-logo.png"
           alt="T-Mobile Logo"
-          className="mx-auto mb-6 h-14 w-auto rounded-xl border-4 border-white shadow-lg"
+          className="mx-auto mb-6 h-14 w-auto rounded-xl"
           style={{
-            boxShadow: '0 0 0 4px #E20074, 0 4px 24px 0 rgba(226,0,116,0.15)',
+            boxShadow: 'none',
+            border: 'none',
             background: 'white',
           }}
         />
@@ -120,7 +121,7 @@ const LoginScreen = ({ onLogin }) => {
           
           <button
             onClick={handleLogin}
-            className="w-full bg-gradient-to-r from-pink-500 to-violet-500 text-white py-3 px-6 rounded-lg font-semibold hover:from-pink-600 hover:to-violet-600 transform hover:scale-105 transition-all duration-200 shadow-lg"
+            className="w-full bg-[#E20074] text-white py-3 px-6 rounded-lg font-semibold hover:bg-pink-700 transform hover:scale-105 transition-all duration-200"
             disabled={loading}
           >
             {loading ? "Signing In..." : "Sign In"}
@@ -156,6 +157,11 @@ const LoginScreen = ({ onLogin }) => {
               src="/tmobile-logo.png"
               alt="T-Mobile Logo"
               className="mx-auto mb-4 h-12 w-auto"
+              style={{
+                boxShadow: 'none',
+                border: 'none',
+                background: 'white',
+              }}
             />
             <h2 className="text-xl font-bold text-center mb-4 text-pink-700">SSO Login</h2>
             <label className="block text-gray-700 text-sm font-medium mb-2">

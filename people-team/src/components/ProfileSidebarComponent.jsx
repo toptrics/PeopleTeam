@@ -50,7 +50,7 @@ const ProfileSidebar = ({ isOpen, onClose, currentUser, onLogout }) => {
       }`}>
         <div className="flex flex-col h-full">
           {/* Profile Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-white">
+          <div className="bg-[#E20074] p-6 text-white">
             <div className="flex items-center space-x-4">
               <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
                 <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
