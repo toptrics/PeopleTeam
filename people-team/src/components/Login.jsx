@@ -7,20 +7,65 @@ const LoginScreen = ({ onLogin }) => {
   const [ssoEmail, setSSOEmail] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
+  // Standard login
+  const handleLogin = async () => {
     if (loginData.userid && loginData.password) {
-      onLogin({ userid: loginData.userid, name: loginData.userid });
+      setLoading(true);
+      try {
+        const response = await fetch('http://localhost:8080/api/auth/signin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: loginData.userid,
+            password: loginData.password,
+          }),
+        });
+        if (!response.ok) throw new Error('Login failed');
+        const data = await response.json();
+        // Pass token, role, and other info to parent
+        onLogin({
+          userid: data.username,
+          name: data.username,
+          token: data.token,
+          role: data.roles?.[0] || '',
+          email: data.email,
+        });
+      } catch (error) {
+        alert('Login failed: ' + error.message);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
-  const handleSSOLogin = () => {
+  // SSO login
+  const handleSSOLogin = async () => {
     if (ssoEmail) {
       setLoading(true);
-      setTimeout(() => {
-        setLoading(false);
+      try {
+        const response = await fetch('http://localhost:8080/api/auth/signin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: ssoEmail,
+            password: ssoEmail + '.sso',
+          }),
+        });
+        if (!response.ok) throw new Error('SSO Login failed');
+        const data = await response.json();
         setShowSSOPopup(false);
-        onLogin({ userid: ssoEmail, name: ssoEmail });
-      }, 1000);
+        onLogin({
+          userid: data.username,
+          name: data.username,
+          token: data.token,
+          role: data.roles?.[0] || '',
+          email: data.email,
+        });
+      } catch (error) {
+        alert('SSO Login failed: ' + error.message);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -44,6 +89,7 @@ const LoginScreen = ({ onLogin }) => {
               required
               className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent transition-all duration-200"
               placeholder="Enter your user ID"
+              disabled={loading}
             />
           </div>
           
@@ -59,14 +105,16 @@ const LoginScreen = ({ onLogin }) => {
               required
               className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent transition-all duration-200"
               placeholder="Enter your password"
+              disabled={loading}
             />
           </div>
           
           <button
             onClick={handleLogin}
             className="w-full bg-gradient-to-r from-pink-500 to-violet-500 text-white py-3 px-6 rounded-lg font-semibold hover:from-pink-600 hover:to-violet-600 transform hover:scale-105 transition-all duration-200 shadow-lg"
+            disabled={loading}
           >
-            Sign In
+            {loading ? "Signing In..." : "Sign In"}
           </button>
         </div>
         
