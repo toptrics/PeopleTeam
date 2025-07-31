@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu, Bell, Search } from 'lucide-react';
 import ChatWindow from './ChatWindowComponent';
 import ProfileSidebar from './ProfileSidebarComponent';
@@ -10,6 +10,28 @@ const LandingScreen = ({ currentUser, onLogout }) => {
     { id: 2, text: "How can I help you today?", sender: "bot", timestamp: "10:31 AM" }
   ]);
   const [newMessage, setNewMessage] = useState('');
+  const [employeeData, setEmployeeData] = useState(null);
+
+  useEffect(() => {
+    const fetchEmployeeData = async () => {
+      if (!currentUser?.employeeId || !currentUser?.token) return;
+      try {
+        const response = await fetch(
+          `http://localhost:8080/api/admin/employee/${currentUser.employeeId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${currentUser.token}`,
+            },
+          }
+        );
+        const data = await response.json();
+        if (data.success) setEmployeeData(data);
+      } catch (err) {
+        // handle error
+      }
+    };
+    fetchEmployeeData();
+  }, [currentUser]);
 
   const handleSendMessage = () => {
     if (newMessage.trim()) {
@@ -47,6 +69,7 @@ const LandingScreen = ({ currentUser, onLogout }) => {
         onClose={() => setIsProfileOpen(false)}
         currentUser={currentUser}
         onLogout={handleLogout}
+        employeeData={employeeData}
       />
 
       {/* Main Content */}
