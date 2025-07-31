@@ -4,15 +4,15 @@ import { Send, Smile, Paperclip } from 'lucide-react';
 // ChatWindow Component
 const ChatWindow = ({ messages, newMessage, setNewMessage, onSendMessage }) => {
   return (
-    <div className="bg-white rounded-2xl shadow-lg flex-1 flex flex-col overflow-hidden">
+    <div className="bg-white rounded-2xl shadow-lg h-full flex flex-col overflow-hidden">
       {/* Chat Header */}
-      <div className="bg-[#E20074] p-4 text-white">
-        <h2 className="text-lg font-semibold">Chat Room</h2>
-        <p className="text-white/80 text-sm">Real-time messaging</p>
+      <div className="bg-[#E20074] p-3 text-white flex-shrink-0">
+        <h2 className="text-base font-semibold">Chat Room</h2>
+        <p className="text-white/80 text-xs">Real-time messaging</p>
       </div>
       
-      {/* Messages */}
-      <div className="flex-1 p-4 overflow-y-auto space-y-4">
+      {/* Messages - Fixed height with scroll */}
+      <div className="flex-1 p-3 overflow-y-auto space-y-3 min-h-0">
         {messages.map((message) => (
           <div
             key={message.id}
@@ -38,16 +38,16 @@ const ChatWindow = ({ messages, newMessage, setNewMessage, onSendMessage }) => {
         ))}
       </div>
       
-      {/* Message Input */}
-      <div className="p-4 border-t">
-        <div className="flex space-x-3">
+      {/* Message Input - Fixed at bottom */}
+      <div className="p-3 border-t flex-shrink-0">
+        <div className="flex space-x-2">
           <input
             type="text"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && onSendMessage()}
             placeholder="Type your message..."
-            className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+            className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
           />
           <button
             onClick={onSendMessage}

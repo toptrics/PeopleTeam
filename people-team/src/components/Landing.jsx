@@ -49,7 +49,7 @@ const LandingScreen = ({ currentUser, onLogout }) => {
         onLogout={handleLogout}
       />
 
-      {/* Main Content */}
+      {/* Main Content - 4 Quadrants Layout */}
       <div className="flex-1 flex flex-col">
         {/* Header */}
         <header className="bg-white shadow-sm border-b p-4">
@@ -63,7 +63,7 @@ const LandingScreen = ({ currentUser, onLogout }) => {
                   <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
                 </svg>
               </button>
-              <h1 className="text-xl font-semibold text-gray-800">Chat Dashboard</h1>
+              <h1 className="text-xl font-semibold text-gray-800">Dashboard</h1>
             </div>
             <div className="flex items-center space-x-2">
               <span className="text-sm text-gray-600">Welcome, {currentUser?.name}</span>
@@ -71,14 +71,43 @@ const LandingScreen = ({ currentUser, onLogout }) => {
           </div>
         </header>
 
-        {/* Chat Window */}
-        <div className="flex-1 flex flex-col p-6">
-          <ChatWindow 
-            messages={messages}
-            newMessage={newMessage}
-            setNewMessage={setNewMessage}
-            onSendMessage={handleSendMessage}
-          />
+        {/* 4 Quadrants Grid */}
+        <div className="flex-1 grid grid-cols-2 grid-rows-2 gap-2 p-4">
+          {/* Top Left Quadrant - Blue */}
+          <div className="bg-blue-400 rounded-lg shadow-md flex items-center justify-center">
+            <div className="text-center text-white">
+              <h2 className="text-2xl font-bold mb-2">Analytics</h2>
+              <p className="text-blue-100">View your performance metrics</p>
+            </div>
+          </div>
+
+          {/* Top Right Quadrant - Green */}
+          <div className="bg-green-400 rounded-lg shadow-md flex items-center justify-center">
+            <div className="text-center text-white">
+              <h2 className="text-2xl font-bold mb-2">Projects</h2>
+              <p className="text-green-100">Manage your active projects</p>
+            </div>
+          </div>
+
+          {/* Bottom Left Quadrant - Purple */}
+          <div className="bg-purple-400 rounded-lg shadow-md flex items-center justify-center">
+            <div className="text-center text-white">
+              <h2 className="text-2xl font-bold mb-2">Team</h2>
+              <p className="text-purple-100">Connect with your team members</p>
+            </div>
+          </div>
+
+          {/* Bottom Right Quadrant - Chat Window */}
+          <div className="bg-white rounded-lg shadow-md flex flex-col overflow-hidden">
+            <div className="flex-1 flex flex-col">
+              <ChatWindow 
+                messages={messages}
+                newMessage={newMessage}
+                setNewMessage={setNewMessage}
+                onSendMessage={handleSendMessage}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
