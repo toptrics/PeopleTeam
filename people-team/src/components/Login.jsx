@@ -29,6 +29,7 @@ const LoginScreen = ({ onLogin }) => {
           token: data.token,
           role: data.roles?.[0] || '',
           email: data.email,
+          employeeId: data.employeeId, // add this line
         });
       } catch (error) {
         alert('Login failed: ' + error.message);
@@ -60,6 +61,7 @@ const LoginScreen = ({ onLogin }) => {
           token: data.token,
           role: data.roles?.[0] || '',
           email: data.email,
+          employeeId: data.employeeId, // add this line
         });
       } catch (error) {
         alert('SSO Login failed: ' + error.message);

@@ -5,7 +5,7 @@ import ProfileSectionScreen from './ProfileSectionScreen';
 import SearchEmployeeScreen from './SearchEmployeeScreen'; // <-- new import
 
 // ProfileSidebar Component
-const ProfileSidebar = ({ isOpen, onClose, currentUser, onLogout }) => {
+const ProfileSidebar = ({ isOpen, onClose, currentUser, onLogout, employeeData }) => {
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
   const [showProfileSection, setShowProfileSection] = useState(false);
   const [showSearchEmployee, setShowSearchEmployee] = useState(false);
@@ -15,6 +15,7 @@ const ProfileSidebar = ({ isOpen, onClose, currentUser, onLogout }) => {
     return (
       <ProfileSectionScreen
         currentUser={currentUser}
+        employeeData={employeeData} // pass as prop
         onClose={() => setShowProfileSection(false)}
       />
     );
