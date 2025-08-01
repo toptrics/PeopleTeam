@@ -3,12 +3,15 @@ import { User, Search, LogOut } from 'lucide-react';
 import EmployeeFeedbackForm from './EmployeeFeedbackForm';
 import ProfileSectionScreen from './ProfileSectionScreen';
 import SearchEmployeeScreen from './SearchEmployeeScreen'; // <-- new import
+import OfferSummary from './OfferSummary';
+
 
 // ProfileSidebar Component
 const ProfileSidebar = ({ isOpen, onClose, currentUser, onLogout, employeeData }) => {
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
   const [showProfileSection, setShowProfileSection] = useState(false);
   const [showSearchEmployee, setShowSearchEmployee] = useState(false);
+  const [showOfferSummary, setShowOfferSummary] = useState(false);
 
   // Show profile section as a full screen overlay
   if (showProfileSection) {
@@ -42,6 +45,16 @@ const ProfileSidebar = ({ isOpen, onClose, currentUser, onLogout, employeeData }
           setShowFeedbackForm(false);
         }}
         currentUser={currentUser}
+      />
+    );
+  }
+
+  // Show offer summary as a full screen overlay
+  if (showOfferSummary) {
+    return (
+      <OfferSummary
+        token={currentUser.token}
+        onClose={() => setShowOfferSummary(false)}
       />
     );
   }
@@ -94,15 +107,27 @@ const ProfileSidebar = ({ isOpen, onClose, currentUser, onLogout, employeeData }
               </button>
               {/* Show Employee Feedback only for ROLE_ADMIN */}
               {currentUser?.role === 'ROLE_ADMIN' && (
-                <button
-                  className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 transition-colors w-full text-left"
-                  onClick={() => setShowFeedbackForm(true)}
-                >
-                  <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>
-                  </svg>
-                  <span className="text-gray-700">Employee Feedback</span>
-                </button>
+                <>
+                  <button
+                    className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 transition-colors w-full text-left"
+                    onClick={() => setShowFeedbackForm(true)}
+                  >
+                    <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>
+                    </svg>
+                    <span className="text-gray-700">Employee Feedback</span>
+                  </button>
+                  <button
+                    className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 transition-colors w-full text-left"
+                    onClick={() => setShowOfferSummary(true)}
+                  >
+                    <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none"/>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8 12l2 2 4-4"/>
+                    </svg>
+                    <span className="text-gray-700">Offer Summary</span>
+                  </button>
+                </>
               )}
             </nav>
           </div>
