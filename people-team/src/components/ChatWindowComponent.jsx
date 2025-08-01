@@ -2,7 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Send, Smile, Paperclip } from 'lucide-react';
 
 // ChatWindow Component
-const ChatWindow = ({ messages, newMessage, setNewMessage, onSendMessage }) => {
+const ChatWindow = () => {
+  const [messages, setMessages] = useState([
+    { id: 1, text: "Hello! I'm your HR assistant. Ask me anything about employees, departments, or company data.", sender: "bot", timestamp: new Date().toLocaleTimeString() }
+  ]);
+  const [newMessage, setNewMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -10,6 +15,48 @@ const ChatWindow = ({ messages, newMessage, setNewMessage, onSendMessage }) => {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages]);
+
+  const handleSendMessage = async () => {
+    if (!newMessage.trim() || isLoading) return;
+
+    const userMessage = {
+      id: Date.now(),
+      text: newMessage,
+      sender: 'user',
+      timestamp: new Date().toLocaleTimeString()
+    };
+
+    // Add user message to chat
+    setMessages(prev => [...prev, userMessage]);
+    const currentMessage = newMessage;
+    setNewMessage('');
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(`http://0.0.0.0:8000/ask?query=${encodeURIComponent(currentMessage)}`);
+      const data = await response.json();
+      
+      const botMessage = {
+        id: Date.now() + 1,
+        text: data.answer || 'Sorry, I could not process your request.',
+        sender: 'bot',
+        timestamp: new Date().toLocaleTimeString()
+      };
+
+      setMessages(prev => [...prev, botMessage]);
+    } catch (error) {
+      console.error('Chat API error:', error);
+      const errorMessage = {
+        id: Date.now() + 1,
+        text: 'Sorry, there was an error processing your request. Please try again.',
+        sender: 'bot',
+        timestamp: new Date().toLocaleTimeString()
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="bg-white h-full flex flex-col min-h-0 overflow-hidden">
@@ -45,6 +92,23 @@ const ChatWindow = ({ messages, newMessage, setNewMessage, onSendMessage }) => {
             </div>
           </div>
         ))}
+        
+        {/* Loading indicator */}
+        {isLoading && (
+          <div className="flex justify-start">
+            <div className="max-w-xs lg:max-w-md px-4 py-2 rounded-2xl bg-gray-100 text-gray-800">
+              <div className="flex items-center space-x-2">
+                <div className="flex space-x-1">
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                </div>
+                <span className="text-xs text-gray-500">Thinking...</span>
+              </div>
+            </div>
+          </div>
+        )}
+        
         <div ref={messagesEndRef} />
       </div>
       
@@ -55,13 +119,15 @@ const ChatWindow = ({ messages, newMessage, setNewMessage, onSendMessage }) => {
             type="text"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && onSendMessage()}
-            placeholder="Type your message..."
-            className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+            placeholder={isLoading ? "Waiting for response..." : "Ask me about employees, departments, or company data..."}
+            disabled={isLoading}
+            className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
           />
           <button
-            onClick={onSendMessage}
-            className="bg-[#E20074] text-white p-2 rounded-full hover:bg-pink-700 transition-colors"
+            onClick={handleSendMessage}
+            disabled={isLoading || !newMessage.trim()}
+            className="bg-[#E20074] text-white p-2 rounded-full hover:bg-pink-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
           >
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
