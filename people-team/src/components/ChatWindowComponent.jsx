@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Send, Smile, Paperclip } from 'lucide-react';
 
 // ChatWindow Component
 const ChatWindow = ({ messages, newMessage, setNewMessage, onSendMessage }) => {
+  const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
+
   return (
-    <div className="bg-white rounded-2xl shadow-lg h-full flex flex-col overflow-hidden">
+    <div className="bg-white h-full flex flex-col min-h-0 overflow-hidden">
       {/* Chat Header */}
       <div className="bg-[#E20074] p-3 text-white flex-shrink-0">
         <h2 className="text-base font-semibold">Chat Room</h2>
@@ -12,7 +20,8 @@ const ChatWindow = ({ messages, newMessage, setNewMessage, onSendMessage }) => {
       </div>
       
       {/* Messages - Fixed height with scroll */}
-      <div className="flex-1 p-3 overflow-y-auto space-y-3 min-h-0">
+      <div className="flex-1 min-h-0 p-3 overflow-y-auto space-y-3">
+
         {messages.map((message) => (
           <div
             key={message.id}
@@ -36,6 +45,7 @@ const ChatWindow = ({ messages, newMessage, setNewMessage, onSendMessage }) => {
             </div>
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
       
       {/* Message Input - Fixed at bottom */}

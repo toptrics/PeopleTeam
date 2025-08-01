@@ -63,7 +63,7 @@ const LandingScreen = ({ currentUser, onLogout }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="h-screen bg-gray-50 flex flex-col">
       <ProfileSidebar 
         isOpen={isProfileOpen}
         onClose={() => setIsProfileOpen(false)}
@@ -95,9 +95,9 @@ const LandingScreen = ({ currentUser, onLogout }) => {
         </header>
 
         {/* 4 Quadrants Grid */}
-        <div className="flex-1 grid grid-cols-2 grid-rows-2 gap-2 p-4">
+        <div className="flex-1 grid grid-cols-2 grid-rows-2 gap-2 p-4 h-full min-h-0" style={{height: '100vh'}}>
           {/* Top Left Quadrant - Blue */}
-          <div className="bg-blue-400 rounded-lg shadow-md flex items-center justify-center">
+          <div className="bg-blue-400 rounded-lg shadow-md flex items-center justify-center h-full min-h-0">
             <div className="text-center text-white">
               <h2 className="text-2xl font-bold mb-2">Analytics</h2>
               <p className="text-blue-100">View your performance metrics</p>
@@ -105,7 +105,7 @@ const LandingScreen = ({ currentUser, onLogout }) => {
           </div>
 
           {/* Top Right Quadrant - Green */}
-          <div className="bg-green-400 rounded-lg shadow-md flex items-center justify-center">
+          <div className="bg-green-400 rounded-lg shadow-md flex items-center justify-center h-full min-h-0">
             <div className="text-center text-white">
               <h2 className="text-2xl font-bold mb-2">Projects</h2>
               <p className="text-green-100">Manage your active projects</p>
@@ -113,7 +113,7 @@ const LandingScreen = ({ currentUser, onLogout }) => {
           </div>
 
           {/* Bottom Left Quadrant - Purple */}
-          <div className="bg-purple-400 rounded-lg shadow-md flex items-center justify-center">
+          <div className="bg-purple-400 rounded-lg shadow-md flex items-center justify-center h-full min-h-0">
             <div className="text-center text-white">
               <h2 className="text-2xl font-bold mb-2">Team</h2>
               <p className="text-purple-100">Connect with your team members</p>
@@ -121,15 +121,13 @@ const LandingScreen = ({ currentUser, onLogout }) => {
           </div>
 
           {/* Bottom Right Quadrant - Chat Window */}
-          <div className="bg-white rounded-lg shadow-md flex flex-col overflow-hidden">
-            <div className="flex-1 flex flex-col">
-              <ChatWindow 
-                messages={messages}
-                newMessage={newMessage}
-                setNewMessage={setNewMessage}
-                onSendMessage={handleSendMessage}
-              />
-            </div>
+          <div className="bg-white rounded-lg shadow-md overflow-hidden h-[40vh] min-h-0 flex flex-col">
+            <ChatWindow 
+              messages={messages}
+              newMessage={newMessage}
+              setNewMessage={setNewMessage}
+              onSendMessage={handleSendMessage}
+            />
           </div>
         </div>
       </div>
