@@ -27,6 +27,7 @@ const ProfileSidebar = ({ isOpen, onClose, currentUser, onLogout, employeeData }
       <SearchEmployeeScreen
         onClose={() => setShowSearchEmployee(false)}
         currentUser={currentUser}
+        employeeData={employeeData}
       />
     );
   }

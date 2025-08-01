@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ProfileSectionScreen from './ProfileSectionScreen';
 
-const SearchEmployeeScreen = ({ onClose, currentUser }) => {
+const SearchEmployeeScreen = ({ onClose, currentUser, employeeData }) => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -62,6 +62,8 @@ const SearchEmployeeScreen = ({ onClose, currentUser }) => {
     return (
       <ProfileSectionScreen
         employeeData={selectedProfile}
+        reportees={selectedProfile?.reportees}
+        currentUser={currentUser}
         onClose={() => setSelectedProfile(null)}
       />
     );
