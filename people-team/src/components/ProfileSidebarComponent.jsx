@@ -62,8 +62,15 @@ const ProfileSidebar = ({ isOpen, onClose, currentUser, onLogout, employeeData }
                 </svg>
               </div>
               <div>
-                <h2 className="text-xl font-semibold">{currentUser?.name}</h2>
-                <p className="text-white/80">@{currentUser?.userid}</p>
+                {(() => {
+                  const profile = employeeData?.employee?.unifiedProfile || {};
+                  return (
+                    <>
+                      <h2 className="text-xl font-semibold">{profile.name || currentUser?.name}</h2>
+                      <p className="text-white/80">{currentUser?.role}</p>
+                    </>
+                  );
+                })()}
               </div>
             </div>
           </div>
