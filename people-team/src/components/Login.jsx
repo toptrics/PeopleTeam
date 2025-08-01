@@ -74,7 +74,8 @@ const LoginScreen = ({ onLogin }) => {
   return (
     <div className="min-h-screen bg-[#E20074] flex items-center justify-center p-4">
       <div className="w-full max-w-md p-8 rounded-2xl shadow-2xl bg-gray-900">
-        <img
+        <div style={{display: 'flex', justifyContent:'center', alignSelf:'center', flexDirection: 'row'}}>
+      <img
           src="/tmobile-logo.png"
           alt="T-Mobile Logo"
           className="mx-auto mb-6 h-14 w-auto rounded-xl"
@@ -84,6 +85,18 @@ const LoginScreen = ({ onLogin }) => {
             background: 'white',
           }}
         />
+        <img
+          src="/hr_logo.png"
+          alt="T-Mobile Logo"
+          className="mx-auto mb-6 h-14 w-auto rounded-xl"
+          style={{
+            boxShadow: 'none',
+            border: 'none',
+            background: 'white',
+          }}
+        />
+        </div>
+
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
           <p className="text-white/80">Sign in to continue to your account</p>

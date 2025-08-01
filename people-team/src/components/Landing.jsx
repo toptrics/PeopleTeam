@@ -106,9 +106,9 @@ const LandingScreen = ({ currentUser, onLogout }) => {
         </header>
 
         {/* 4 Quadrants Grid */}
-        <div className="flex-1 grid grid-cols-2 grid-rows-2 gap-2 p-4 h-full min-h-0">
+        <div className="flex-1 grid grid-cols-2 grid-rows-2 gap-2 p-4 h-full">
           {/* Top Left Quadrant - Profile Summary (Magenta/Glassmorphism) */}
-          <div className="bg-gradient-to-br from-[#E20074] via-pink-400 to-fuchsia-600 rounded-2xl shadow-xl flex items-center justify-center h-full min-h-0 border border-white/20 backdrop-blur-md">
+          <div className="bg-gradient-to-br from-[#E20074] via-pink-400 to-fuchsia-600 rounded-2xl shadow-xl flex items-center justify-center h-full border border-white/20 backdrop-blur-md">
             <div className="bg-white/20 rounded-xl h-full w-full shadow-lg flex flex-col items-center justify-center backdrop-blur-md p-4 sm:p-8">
               <div className="mb-4 flex flex-col items-center">
                 <svg className="w-12 h-12 text-white mb-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-2.5 4-4 8-4s8 1.5 8 4"/></svg>
@@ -124,7 +124,7 @@ const LandingScreen = ({ currentUser, onLogout }) => {
           </div>
 
           {/* Top Right Quadrant - Reportees List (Magenta/Glassmorphism) */}
-          <div className="bg-gradient-to-br from-[#E20074] via-fuchsia-500 to-pink-400 rounded-2xl shadow-xl flex items-center justify-center h-full min-h-0 border border-white/20 backdrop-blur-md">
+          <div className="bg-gradient-to-br from-[#E20074] via-fuchsia-500 to-pink-400 rounded-2xl shadow-xl flex items-center justify-center h-full border border-white/20 backdrop-blur-md">
             <div className="bg-white/20 rounded-xl h-full w-full shadow-lg flex flex-col items-center justify-center backdrop-blur-md p-4 sm:p-8">
               <div className="mb-4 flex flex-col items-center">
                 <svg className="w-10 h-10 text-white mb-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M16 11c1.66 0 3 1.34 3 3v3H5v-3c0-1.66 1.34-3 3-3h8zm-8-2c0-2.21 1.79-4 4-4s4 1.79 4 4"/></svg>
@@ -173,7 +173,7 @@ const LandingScreen = ({ currentUser, onLogout }) => {
           )}
 
           {/* Bottom Left Quadrant - Yearly Ratings (Magenta/Glassmorphism) */}
-          <div className="bg-gradient-to-br from-[#E20074] via-fuchsia-400 to-pink-400 rounded-2xl shadow-xl flex items-center justify-center h-full min-h-0 border border-white/20 backdrop-blur-md">
+          <div className="bg-gradient-to-br from-[#E20074] via-fuchsia-400 to-pink-400 rounded-2xl shadow-xl flex items-center justify-center h-full border border-white/20 backdrop-blur-md">
             <div className="bg-white/20 rounded-xl h-full w-full shadow-lg flex flex-col items-center justify-center backdrop-blur-md p-4 sm:p-8">
               <div className="mb-4 flex flex-col items-center">
                 <svg className="w-10 h-10 text-white mb-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
@@ -194,7 +194,7 @@ const LandingScreen = ({ currentUser, onLogout }) => {
           </div>
 
           {/* Bottom Right Quadrant - Chat Window */}
-          <div className="bg-white rounded-lg shadow-md overflow-hidden h-[40vh] min-h-0 flex flex-col">
+          <div className="bg-white rounded-lg shadow-md overflow-hidden h-[40vh] flex flex-col">
             <ChatWindow 
               messages={messages}
               newMessage={newMessage}
