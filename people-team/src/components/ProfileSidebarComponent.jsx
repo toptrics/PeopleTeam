@@ -26,6 +26,7 @@ const ProfileSidebar = ({ isOpen, onClose, currentUser, onLogout, employeeData }
     return (
       <SearchEmployeeScreen
         onClose={() => setShowSearchEmployee(false)}
+        currentUser={currentUser}
       />
     );
   }
@@ -39,6 +40,7 @@ const ProfileSidebar = ({ isOpen, onClose, currentUser, onLogout, employeeData }
           alert('Feedback submitted!');
           setShowFeedbackForm(false);
         }}
+        currentUser={currentUser}
       />
     );
   }

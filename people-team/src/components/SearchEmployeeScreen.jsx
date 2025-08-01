@@ -1,32 +1,71 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import ProfileSectionScreen from './ProfileSectionScreen';
 
-const SearchEmployeeScreen = ({ onClose }) => {
+const SearchEmployeeScreen = ({ onClose, currentUser }) => {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState(null); // null = not searched, [] = searched but no results
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [selectedProfile, setSelectedProfile] = useState(null);
 
-  // Placeholder for future API integration
-  // React.useEffect(() => {
-  //   if (query.length > 2) {
-  //     fetch(`/api/employees?search=${query}`)
-  //       .then(res => res.json())
-  //       .then(data => setResults(data));
-  //   } else {
-  //     setResults(null);
-  //   }
-  // }, [query]);
+  useEffect(() => {
+    const fetchResults = async () => {
+      if (query.length > 2 && currentUser?.token) {
+        setLoading(true);
+        try {
+          const response = await fetch(
+            `http://localhost:8080/api/admin/employees/search?query=${encodeURIComponent(query)}`,
+            {
+              headers: {
+                Authorization: `Bearer ${currentUser.token}`,
+              },
+            }
+          );
+          const data = await response.json();
+          if (data.success && Array.isArray(data.employees)) setResults(data.employees);
+          else setResults([]);
+        } catch {
+          setResults([]);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setResults([]);
+      }
+    };
+    fetchResults();
+  }, [query, currentUser]);
 
-  // Demo: simulate no matches if query is "none"
-  React.useEffect(() => {
-    if (query.length > 2) {
-      // Simulate API: "none" returns empty, anything else returns fake data
-      setTimeout(() => {
-        if (query.toLowerCase() === "none") setResults([]);
-        else setResults([{ id: 1, name: "Employee 1", email: "employee1@company.com" }]);
-      }, 400);
-    } else {
-      setResults(null);
+  // Fetch profile data for selected employee
+  const handleEmployeeClick = async (employeeCode) => {
+    if (!employeeCode || !currentUser?.token) return;
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/admin/employee/${employeeCode}`,
+        {
+          headers: {
+            Authorization: `Bearer ${currentUser.token}`,
+          },
+        }
+      );
+      const data = await response.json();
+      if (data.success) setSelectedProfile(data);
+    } catch {
+      // handle error
+    } finally {
+      setLoading(false);
     }
-  }, [query]);
+  };
+
+  // Show profile overlay if selected
+  if (selectedProfile) {
+    return (
+      <ProfileSectionScreen
+        employeeData={selectedProfile}
+        onClose={() => setSelectedProfile(null)}
+      />
+    );
+  }
 
   return (
     <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center">
@@ -48,17 +87,25 @@ const SearchEmployeeScreen = ({ onClose }) => {
         />
         <div className="text-gray-500 text-center mt-8">
           {query.length < 3 && "Type at least 3 characters to search."}
-          {query.length >= 3 && results === null && "Searching..."}
-          {query.length >= 3 && results && results.length > 0 && (
-            <ul className="text-left space-y-2 mt-2">
+          {query.length >= 3 && loading && "Searching..."}
+          {query.length >= 3 && !loading && results.length > 0 && (
+            <ul className="text-left space-y-2 mt-2 max-h-96 overflow-y-auto">
               {results.map(emp => (
-                <li key={emp.id} className="border-b pb-2">
-                  <span className="font-semibold">{emp.name}</span> <span className="text-gray-400">({emp.email})</span>
+                <li
+                  key={emp.employeeCode}
+                  className="border-b pb-2 cursor-pointer hover:bg-gray-100 rounded"
+                  onClick={() => handleEmployeeClick(emp.employeeCode)}
+                >
+                  <span className="font-semibold">{emp.employeeName}</span>
+                  <span className="ml-2 text-gray-400">({emp.email})</span>
+                  <div className="text-xs text-gray-600">
+                    {emp.position} | {emp.department} | {emp.employeeCode}
+                  </div>
                 </li>
               ))}
             </ul>
           )}
-          {query.length >= 3 && results && results.length === 0 && (
+          {query.length >= 3 && !loading && results.length === 0 && (
             <span>No matching employees found.</span>
           )}
         </div>

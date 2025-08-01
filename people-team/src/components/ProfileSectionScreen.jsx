@@ -29,7 +29,7 @@ const ProfileSectionScreen = ({ employeeData, onClose }) => {
           </div>
           <div>
             <span className="font-semibold text-gray-700">Employee ID:</span>
-            <span className="ml-2 text-gray-900">{employeeData?.employeeId || '-'}</span>
+            <span className="ml-2 text-gray-900">{employeeData?.employee?.employeeId || '-'}</span>
           </div>
           <div>
             <span className="font-semibold text-gray-700">Email:</span>

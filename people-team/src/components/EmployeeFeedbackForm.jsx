@@ -8,17 +8,42 @@ const initialFeedback = {
   meetingSummary: '',
 };
 
-const EmployeeFeedbackForm = ({ onClose, onSubmit }) => {
+const EmployeeFeedbackForm = ({ onClose, onSubmit, currentUser }) => {
   const [feedback, setFeedback] = useState(initialFeedback);
+  const [saving, setSaving] = useState(false);
 
   const handleChange = (e) => {
     setFeedback({ ...feedback, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (onSubmit) onSubmit(feedback);
-    setFeedback(initialFeedback);
+
+    setSaving(true);
+    try {
+      await fetch(
+        `http://localhost:8080/api/admin/employee/${feedback.employeeId}/feedback`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${currentUser.token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            employeeId: feedback.employeeId,
+            feedback: feedback.meetingSummary,
+            feedbackGivenBy: currentUser.email || '',
+          }),
+        }
+      );
+      setFeedback(initialFeedback);
+      if (onClose) onClose();
+    } catch (error) {
+      alert('Failed to save feedback');
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -92,8 +117,9 @@ const EmployeeFeedbackForm = ({ onClose, onSubmit }) => {
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+            disabled={saving}
           >
-            Submit Feedback
+            {saving ? 'Saving...' : 'Submit Feedback'}
           </button>
         </form>
       </div>
